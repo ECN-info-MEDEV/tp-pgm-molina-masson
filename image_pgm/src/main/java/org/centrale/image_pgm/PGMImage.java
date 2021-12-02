@@ -226,7 +226,7 @@ public class PGMImage {
         write(this.fileName);
     }
     
-    
+
     /**
      * Apply a threshold to a gray scale PGM Image.
      * @param thr The threshold (0 - 255) 
@@ -245,6 +245,26 @@ public class PGMImage {
         }
         
         return output;
+    }
+  
+  
+    /**
+     * Computes the histogram of grey levels of the file
+     * @return 
+     */
+    public ArrayList<Integer> computeHistogram(){
+        
+        ArrayList<Integer> histo = new ArrayList<Integer>();
+        
+        for(int i=0; i<255;i++){
+            histo.add(0);
+        }
+        
+        for(int i=0;i<height*width;i++){
+            histo.set(img.get(i), histo.get(img.get(i))+1);
+        }
+        
+        return(histo);
     }
     
 }

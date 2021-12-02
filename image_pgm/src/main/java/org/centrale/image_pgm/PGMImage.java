@@ -203,6 +203,36 @@ public class PGMImage {
     }
     
     
+    
+    public PGMImage computeDiff(PGMImage other){
+        
+        PGMImage result = new PGMImage();
+        
+        result.height=this.height;
+        result.width=this.width;
+        result.fileName = "DIFF.pgm";
+        result.img = new ArrayList<Integer>();
+        
+        try{
+            if(this.height!=other.height || this.width!=other.width){
+                throw new Exception();
+            }
+            
+            
+            for(int i=0;i<height*width;i++){
+                int diff = this.img.get(i)-other.img.get(i);
+                if(diff<0){
+                    diff=0;
+                }
+                result.img.add(diff);
+            }
+        }
+        catch(Exception e){
+            System.err.println("The two images are not the same size, can't compute the difference");
+        }
+        
+        return(result);
+    }
             
     
 }

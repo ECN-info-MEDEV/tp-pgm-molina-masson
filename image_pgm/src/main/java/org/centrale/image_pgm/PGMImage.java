@@ -4,10 +4,10 @@
  */
 package org.centrale.image_pgm;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 /**
  *
@@ -78,11 +78,47 @@ public class PGMImage {
     
     public PGMImage(String fileName){
         this.fileName=fileName;
-        read(this.fileName);
+        this.read(this.fileName);
     }
     
     public void read(String fileName){
-        
+        try {
+            InputStream f = ClassLoader.getSystemClassLoader().getResourceAsStream(fileName);
+            BufferedReader d = new BufferedReader(new InputStreamReader(f));
+            String magic = d.readLine();    // first line contains P2 or P5
+            if(!magic.equals("P2")){
+                throw new PGMFormatException();
+            }
+            String line = d.readLine();     // second line contains height and width
+            while (line.startsWith("#")) {
+                line = d.readLine();
+            }
+            Scanner s = new Scanner(line);
+            width = s.nextInt();
+            height = s.nextInt();
+            line = d.readLine();// third line contains maxVal
+            s = new Scanner(line);
+            int maxVal = s.nextInt();
+
+            int count = 0;
+            int b = 0;
+            try {
+                while (count < height*width) {
+                    b = d.read() ;
+                    img.add(b);
+                    count+=1;
+                }
+            } catch (EOFException eof) {
+                eof.printStackTrace(System.out) ;
+            }
+            System.out.println("Height=" + height);
+            System.out.println("Width=" + height);
+            System.out.println("Required elements=" + (height * width));
+            System.out.println("Obtained elements=" + count);
+        }
+        catch(Throwable t) {
+            t.printStackTrace(System.err) ;
+        }
     }
     
     /**

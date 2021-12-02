@@ -86,6 +86,17 @@ public class PGMImage {
     
     
     /**
+     * Empty private constructor. Create an empty image without initializing the
+     * attributes.
+     */
+    private PGMImage()
+    {
+        // do nothing.
+        this.img = new ArrayList<Integer>();
+    }
+    
+    
+    /**
      * PGMImage constructor that loads an image from a fileName.
      * @param fileName The complete path to the image to load.
      */
@@ -249,7 +260,7 @@ public class PGMImage {
   
   
     /**
-     * Computes the histogram of grey levels of the file
+     * Computes the histogram of gray levels of the file
      * @return 
      */
     public ArrayList<Integer> computeHistogram(){
@@ -265,6 +276,36 @@ public class PGMImage {
         }
         
         return(histo);
+    }
+    
+    
+    /**
+     * Apply a zoom in or out to the current PGMImage
+     * @param percentage Percentage of zoom (> 100 => in : < 100 => out).
+     * @return The PGMImage with the zoom applied.
+     */
+    public PGMImage zoom(int percentage)
+    {
+        PGMImage output = new PGMImage();
+        int height = (this.height*percentage)/100;
+        int width = (this.width*percentage)/100;
+        output.setHeight(height);
+        output.setWidth(width);
+        output.setFileName(this.fileName + "zoom.pgm");
+        
+        for(int x = 0 ; x < width ; x++)
+        {
+            for(int y = 0 ; y < height ; y++)
+            {
+                int x_old = (100*x)/percentage ;
+                int y_old = (100*y)/percentage ;
+                int i = (y_old)*this.width + x_old ;
+                output.getImg().add(this.img.get(i));
+                
+            }
+        }
+        
+        return output;
     }
     
 }

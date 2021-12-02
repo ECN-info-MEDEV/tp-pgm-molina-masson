@@ -22,6 +22,7 @@ public class PGMImage {
         return fileName;
     }
 
+    
     /**
      * @param fileName the fileName to set
      */
@@ -29,6 +30,7 @@ public class PGMImage {
         this.fileName = fileName;
     }
 
+    
     /**
      * @return the height
      */
@@ -36,6 +38,7 @@ public class PGMImage {
         return height;
     }
 
+    
     /**
      * @param height the height to set
      */
@@ -43,6 +46,7 @@ public class PGMImage {
         this.height = height;
     }
 
+    
     /**
      * @return the width
      */
@@ -50,6 +54,7 @@ public class PGMImage {
         return width;
     }
 
+    
     /**
      * @param width the width to set
      */
@@ -57,6 +62,7 @@ public class PGMImage {
         this.width = width;
     }
 
+    
     /**
      * @return the img
      */
@@ -64,6 +70,7 @@ public class PGMImage {
         return img;
     }
 
+    
     /**
      * @param img the img to set
      */
@@ -71,17 +78,52 @@ public class PGMImage {
         this.img = img;
     }
     
+    
     private int height;
     private int width;
     private ArrayList<Integer> img;
     private String fileName;
     
+    
+    /**
+     * PGMImage constructor that loads an image from a fileName.
+     * @param fileName The complete path to the image to load.
+     */
     public PGMImage(String fileName){
         this.fileName=fileName;
         this.read(this.fileName);
     }
     
+    
+    /**
+     * PGMImage copy constructor.
+     * @param other The PGMImage to be copied.
+     */
+    public PGMImage(PGMImage other)
+    {
+        this.height = other.getHeight();
+        this.width = other.getWidth();
+        this.fileName = other.getFileName();
+        this.img = new ArrayList<Integer>();
+        for(int i = 0 ; i < this.height*this.width ; i ++)
+        {
+            this.img.add((Integer)other.getImg().get(i));
+        }
+    }
+    
+    
+    /** 
+     * A method that copy the current PGMImage.
+     * @return 
+     */
+    public PGMImage copy()
+    {
+        return new PGMImage(this);
+    }
+    
+    
     public void read(String fileName){
+        this.img = new ArrayList<Integer>();
         try {
             InputStream f = ClassLoader.getSystemClassLoader().getResourceAsStream(fileName);
             BufferedReader d = new BufferedReader(new InputStreamReader(f));
@@ -120,6 +162,7 @@ public class PGMImage {
             t.printStackTrace(System.err) ;
         }
     }
+    
     
     /**
      * Write the image en PGM format.
@@ -178,11 +221,30 @@ public class PGMImage {
      * Overwrite the current image file in PGM format.
      * @throws IOException If the file can't be write.
      */
-    public void overwrte() throws IOException 
+    public void overwrite() throws IOException 
     {
         write(this.fileName);
     }
     
-            
+    
+    /**
+     * Apply a threshold to a gray scale PGM Image.
+     * @param thr The threshold (0 - 255) 
+     * @return A PGMImage resulting with the apply of the threshold.
+     */
+    public PGMImage applyThreshold(int thr)
+    {
+        PGMImage output = this.copy();
+        
+        for(int i = 0 ; i < this.height*this.width ; i++)
+        {
+            if(this.img.get(i) > thr)
+            {
+                output.getImg().set(i, thr);
+            }
+        }
+        
+        return output;
+    }
     
 }

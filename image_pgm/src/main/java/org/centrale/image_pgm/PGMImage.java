@@ -4,6 +4,7 @@
  */
 package org.centrale.image_pgm;
 
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -120,6 +121,67 @@ public class PGMImage {
         }
     }
     
+    /**
+     * Write the image en PGM format.
+     * @param fileName The name (with total path) to the file where the image 
+     * will be saved.
+     * @throws IOException If the file can't be write.
+     */
+    public void write(String fileName) throws IOException 
+    {
+        String path = fileName;
+        if( ! (fileName.substring(fileName.length()-4).equals(".pgm")) ) {
+            path = fileName + ".pgm";
+        }
+        
+        BufferedWriter writer = new BufferedWriter(new FileWriter(path));
+        
+        writer.write("P2");
+        writer.newLine();
+        
+        writer.write("# no comment.");
+        writer.write("");
+        
+        writer.write(this.height);
+        writer.write(" ");
+        writer.write(this.width);
+        writer.newLine();
+        
+        writer.write(255);
+        writer.newLine();
+        
+        int nbPixel = this.height * this.width;
+        int nbChar = 0;
+        for(int i = 0 ; i < nbPixel ; i ++)
+        {
+            int px = this.img.get(i);
+            writer.write(px);
+            if(px < 10){
+                writer.write("   ");
+            }
+            else if(px < 100) {
+                writer.write("  ");
+            }
+            else {
+                writer.write(" ");
+            }
+            nbChar += 4;
+            if(nbChar == 70){
+                writer.newLine();
+                nbChar = 0;
+            }
+        }
+    }
+    
+    
+    /**
+     * Overwrite the current image file in PGM format.
+     * @throws IOException If the file can't be write.
+     */
+    public void overwrte() throws IOException 
+    {
+        write(this.fileName);
+    }
     
             
     

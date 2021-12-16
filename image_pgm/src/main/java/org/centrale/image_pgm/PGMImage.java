@@ -161,7 +161,7 @@ public class PGMImage {
             this.height = sc.nextInt();
             this.img = new int[width*height];
             line = sc.nextLine();// third line contains maxVal
-            
+            line = sc.nextLine();
             //int maxVal = s.nextInt();
 
             int count = 0;

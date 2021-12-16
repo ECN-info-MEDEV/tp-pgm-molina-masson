@@ -15,9 +15,9 @@ public class Main {
     
     public static void main(String[] argv)
     {
-        PGMImage img = new PGMImage("C:\\CENTRALE\\MEDEV\\TP 3\\Images Test PGM\\brain.pgm");
+        PGMImage img = new PGMImage("brain.pgm");
         try{
-            img.write("C:\\CENTRALE\\MEDEV\\TP 3\\Images Test PGM\\test.pgm");
+            img.write("test.pgm");
         }
         catch(Exception e){
             System.out.println("Could not write the file");

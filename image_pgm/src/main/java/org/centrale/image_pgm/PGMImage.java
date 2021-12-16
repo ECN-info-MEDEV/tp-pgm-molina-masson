@@ -18,9 +18,6 @@ import java.util.Scanner;
  */
 public class PGMImage {
 
-    private PGMImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     /**
      * @return the fileName
@@ -99,6 +96,22 @@ public class PGMImage {
     public PGMImage(String fileName){
         this.fileName=fileName;
         this.read(this.fileName);
+    }
+    
+    
+    /**
+     * PGM Image constructor that allow you to create an empty image of a given 
+     * size.
+     * @param name The name of the file where the image could be saved.
+     * @param height The height of the image.
+     * @param width The width of the image.
+     */
+    public PGMImage(String name, int height, int width)
+    {
+        this.fileName = name ;
+        this.height = height ;
+        this.width = width ;
+        this.img = new int[width*height];
     }
     
     
@@ -284,12 +297,7 @@ public class PGMImage {
     
     public PGMImage computeDiff(PGMImage other){
         
-        PGMImage result = new PGMImage();
-        
-        result.height=this.height;
-        result.width=this.width;
-        result.fileName = "DIFF.pgm";
-        result.img = new int[width*height];
+        PGMImage result = new PGMImage("DIFF.pgm", this.height, this.width);
         
         try{
             if(this.height!=other.height || this.width!=other.width){

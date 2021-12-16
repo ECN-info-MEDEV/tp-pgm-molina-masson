@@ -5,9 +5,6 @@
 package org.centrale.image_pgm;
 
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -17,10 +14,6 @@ import java.util.Scanner;
  * @author thene
  */
 public class PGMImage {
-
-    private PGMImage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     /**
      * @return the fileName
@@ -73,7 +66,7 @@ public class PGMImage {
     /**
      * @return the img
      */
-    public int[] getImg() {
+    public ArrayList getImg() {
         return img;
     }
 
@@ -81,14 +74,14 @@ public class PGMImage {
     /**
      * @param img the img to set
      */
-    public void setImg(int[] img) {
+    public void setImg(ArrayList<Integer> img) {
         this.img = img;
     }
     
     
     private int height;
     private int width;
-    private int[] img;
+    private ArrayList<Integer> img;
     private String fileName;
     
     
@@ -111,10 +104,10 @@ public class PGMImage {
         this.height = other.getHeight();
         this.width = other.getWidth();
         this.fileName = other.getFileName();
-        this.img = new int[width*height];
+        this.img = new ArrayList<Integer>();
         for(int i = 0 ; i < this.height*this.width ; i ++)
         {
-            this.img[i]=((Integer)other.getImg()[i]);
+            this.img.add((Integer)other.getImg().get(i));
         }
     }
     
@@ -130,33 +123,35 @@ public class PGMImage {
     
     
     public void read(String fileName){
-        
+        this.img = new ArrayList<Integer>();
         try {
-            InputStream f = new FileInputStream(fileName);
-            Scanner sc = new Scanner(f);
-            //BufferedReader d = new BufferedReader(new InputStreamReader(f));
-            String magic = sc.nextLine();    // first line contains P2 or P5
+            InputStream f = ClassLoader.getSystemClassLoader().getResourceAsStream(fileName);
+            BufferedReader d = new BufferedReader(new InputStreamReader(f));
+            String magic = d.readLine();    // first line contains P2 or P5
             if(!magic.equals("P2")){
                 throw new PGMFormatException();
             }
-            String line = sc.nextLine();     // second line contains height and width
-//            while (line.startsWith("#")) {
-//                line = sc.nextLine();
-//            }
-            //sc.nextLine();
-            this.width = sc.nextInt();
-            this.height = sc.nextInt();
-            this.img = new int[width*height];
-            line = sc.nextLine();// third line contains maxVal
-            
-            //int maxVal = s.nextInt();
+            String line = d.readLine();     // second line contains height and width
+            while (line.startsWith("#")) {
+                line = d.readLine();
+            }
+            Scanner s = new Scanner(line);
+            width = s.nextInt();
+            height = s.nextInt();
+            line = d.readLine();// third line contains maxVal
+            s = new Scanner(line);
+            int maxVal = s.nextInt();
 
             int count = 0;
             int b = 0;
-            while (count < height*width) {
-                b = sc.nextInt() ;
-                img[count]=b;
-                count+=1;
+            try {
+                while (count < height*width) {
+                    b = d.read() ;
+                    img.add(b);
+                    count+=1;
+                }
+            } catch (EOFException eof) {
+                eof.printStackTrace(System.out) ;
             }
             System.out.println("Height=" + height);
             System.out.println("Width=" + height);
@@ -166,10 +161,6 @@ public class PGMImage {
         catch(Throwable t) {
             t.printStackTrace(System.err) ;
         }
-        System.out.println(img[0]);
-        System.out.println(img[246]);
-        System.out.println(img[1000]);
-        System.out.println(img[1530]);
     }
     
     
@@ -191,26 +182,23 @@ public class PGMImage {
         writer.write("P2");
         writer.newLine();
         
-        writer.write("# ");
+        writer.write("# no comment.");
+        writer.write("");
+        
+        writer.write(this.height);
+        writer.write(" ");
+        writer.write(this.width);
         writer.newLine();
         
-        writer.write(""+this.width);
-        writer.write(" ");
-        
-        
-        writer.write(""+this.height);
-        writer.newLine();      
-
-        
-        writer.write(""+255);
+        writer.write(255);
         writer.newLine();
         
         int nbPixel = this.height * this.width;
         int nbChar = 0;
         for(int i = 0 ; i < nbPixel ; i ++)
         {
-            int px = this.img[i];
-            writer.write(""+px);
+            int px = this.img.get(i);
+            writer.write(px);
             if(px < 10){
                 writer.write("   ");
             }
@@ -250,9 +238,9 @@ public class PGMImage {
         
         for(int i = 0 ; i < this.height*this.width ; i++)
         {
-            if(this.img[i] > thr)
+            if(this.img.get(i) > thr)
             {
-                output.getImg()[i] = thr;
+                output.getImg().set(i, thr);
             }
         }
         
@@ -273,7 +261,7 @@ public class PGMImage {
         }
         
         for(int i=0;i<height*width;i++){
-            histo.set(img[i], histo.get(img[i])+1);
+            histo.set(img.get(i), histo.get(img.get(i))+1);
         }
         
         return(histo);
@@ -289,7 +277,7 @@ public class PGMImage {
         result.height=this.height;
         result.width=this.width;
         result.fileName = "DIFF.pgm";
-        result.img = new int[width*height];
+        result.img = new ArrayList<Integer>();
         
         try{
             if(this.height!=other.height || this.width!=other.width){
@@ -298,11 +286,11 @@ public class PGMImage {
             
             
             for(int i=0;i<height*width;i++){
-                int diff = this.img[i]-other.img[i];
+                int diff = this.img.get(i)-other.img.get(i);
                 if(diff<0){
                     diff=0;
                 }
-                result.img[i]=diff;
+                result.img.add(diff);
             }
         }
         catch(Exception e){
@@ -311,13 +299,10 @@ public class PGMImage {
         
         return(result);
     }
-    
-
-        
-        public void drawImage(Graphics gr){
-            
-            
-
+  
+  
+    public void drawImage(Graphics gr){
+           
             //we draw all pixels on the graphic
             for(int y = 0; y < height; y ++){
                 for(int x = 0; x < width; x ++){
@@ -334,7 +319,4 @@ public class PGMImage {
             }
             
         }
-            
-    
-
 }

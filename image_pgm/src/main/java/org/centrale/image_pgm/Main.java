@@ -5,8 +5,6 @@
  */
 package org.centrale.image_pgm;
 
-import java.util.Arrays;
-
 /**
  *
  * @author Valentin Molina valentin@molina.pro
@@ -27,6 +25,5 @@ public class Main {
         
         System.out.println(Arrays.toString(img.getImg()));
     }
-    
     
 }

@@ -312,9 +312,7 @@ public class PGMImage {
         return(result);
     }
     
-    
-       
-        
+
         
         public void drawImage(Graphics gr){
             

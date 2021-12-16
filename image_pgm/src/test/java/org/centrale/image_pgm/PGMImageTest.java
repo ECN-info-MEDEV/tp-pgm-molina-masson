@@ -7,6 +7,7 @@ package org.centrale.image_pgm;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -40,13 +41,15 @@ public class PGMImageTest {
      */
     @Test
     public void testCopy() {
-        System.out.println("copy");
-        PGMImage instance = null;
-        PGMImage expResult = null;
+        System.out.println("Testing copy");
+        PGMImage instance = new PGMImage("brain.pgm");
         PGMImage result = instance.copy();
-        assertEquals(expResult, result);
+        assertArrayEquals(instance.getImg(), result.getImg());
+        assertEquals(instance.getWidth(), result.getWidth());
+        assertEquals(instance.getHeight(), result.getHeight());
+        assertEquals(instance.getFileName(), result.getFileName());
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("The copy is invalid");
     }
 
     /**

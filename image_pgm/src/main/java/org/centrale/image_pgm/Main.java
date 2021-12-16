@@ -13,7 +13,17 @@ public class Main {
     
     public static void main(String[] argv)
     {
-        System.out.println("Hello");
+        PGMImage img = new PGMImage("brain.pgm");
+        try{
+            img.write("test.pgm");
+        }
+        catch(Exception e){
+            System.out.println("Could not write the file");
+        }
+             
+        imageFrame fr = new imageFrame(img);
+        
+        System.out.println(Arrays.toString(img.getImg()));
     }
     
 }

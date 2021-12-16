@@ -116,6 +116,26 @@ public class PGMImage {
     
     
     /**
+     * PGM Image constructor that allow you to create an image of a given size
+     * with a unique value on all the pixels.
+     * @param name The name of the file where the image could be saved.
+     * @param height The height of the image.
+     * @param width The width of the image.
+     * @param value The value of the pixels.
+     */
+    public PGMImage(String name, int height, int width, int value)
+    {
+        this.fileName = name ;
+        this.height = height ;
+        this.width = width ;
+        this.img = new int[width*height];
+        for(int i = 0; i < height*width; i++){
+            this.img[i] = value;
+        }
+    }
+    
+    
+    /**
      * PGMImage copy constructor.
      * @param other The PGMImage to be copied.
      */

@@ -94,10 +94,41 @@ public class PGMImageTest {
     public void testApplyThreshold() {
         System.out.println("applyThreshold");
         int thr = 0;
-        PGMImage instance = null;
-        PGMImage expResult = null;
+        PGMImage instance = new PGMImage("test", 10, 10, 255);
+        PGMImage expResult = new PGMImage("result", 10, 10, 0);
         PGMImage result = instance.applyThreshold(thr);
         assertEquals(expResult, result);
+        
+        thr = 50;
+        instance = new PGMImage("test", 10, 10, 255);
+        expResult = new PGMImage("result", 10, 10, 50);
+        result = instance.applyThreshold(thr);
+        assertEquals(expResult, result);
+        
+        thr = 100;
+        instance = new PGMImage("test", 10, 10, 255);
+        expResult = new PGMImage("result", 10, 10, 100);
+        result = instance.applyThreshold(thr);
+        assertEquals(expResult, result);
+        
+        thr = 150;
+        instance = new PGMImage("test", 10, 10, 255);
+        expResult = new PGMImage("result", 10, 10, 150);
+        result = instance.applyThreshold(thr);
+        assertEquals(expResult, result);
+        
+        thr = 200;
+        instance = new PGMImage("test", 10, 10, 255);
+        expResult = new PGMImage("result", 10, 10, 200);
+        result = instance.applyThreshold(thr);
+        assertEquals(expResult, result);
+        
+        thr = 255;
+        instance = new PGMImage("test", 10, 10, 255);
+        expResult = new PGMImage("result", 10, 10, 255);
+        result = instance.applyThreshold(thr);
+        assertEquals(expResult, result);
+        
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }

@@ -39,3 +39,4 @@ nb-configuration.xml
 .project
 .settings/*
 image_pgm/test.image_pgm
+/image_pgm/nbproject/

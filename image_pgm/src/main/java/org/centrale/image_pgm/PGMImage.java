@@ -5,6 +5,9 @@
 package org.centrale.image_pgm;
 
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,6 +17,10 @@ import java.util.Scanner;
  * @author thene
  */
 public class PGMImage {
+
+    private PGMImage() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     /**
      * @return the fileName
@@ -66,7 +73,7 @@ public class PGMImage {
     /**
      * @return the img
      */
-    public ArrayList getImg() {
+    public int[] getImg() {
         return img;
     }
 
@@ -74,26 +81,15 @@ public class PGMImage {
     /**
      * @param img the img to set
      */
-    public void setImg(ArrayList<Integer> img) {
+    public void setImg(int[] img) {
         this.img = img;
     }
     
     
     private int height;
     private int width;
-    private ArrayList<Integer> img;
+    private int[] img;
     private String fileName;
-    
-    
-    /**
-     * Empty private constructor. Create an empty image without initializing the
-     * attributes.
-     */
-    private PGMImage()
-    {
-        // do nothing.
-        this.img = new ArrayList<Integer>();
-    }
     
     
     /**
@@ -115,10 +111,10 @@ public class PGMImage {
         this.height = other.getHeight();
         this.width = other.getWidth();
         this.fileName = other.getFileName();
-        this.img = new ArrayList<Integer>();
+        this.img = new int[width*height];
         for(int i = 0 ; i < this.height*this.width ; i ++)
         {
-            this.img.add((Integer)other.getImg().get(i));
+            this.img[i]=((Integer)other.getImg()[i]);
         }
     }
     
@@ -134,35 +130,33 @@ public class PGMImage {
     
     
     public void read(String fileName){
-        this.img = new ArrayList<Integer>();
+        
         try {
-            InputStream f = ClassLoader.getSystemClassLoader().getResourceAsStream(fileName);
-            BufferedReader d = new BufferedReader(new InputStreamReader(f));
-            String magic = d.readLine();    // first line contains P2 or P5
+            InputStream f = new FileInputStream(fileName);
+            Scanner sc = new Scanner(f);
+            //BufferedReader d = new BufferedReader(new InputStreamReader(f));
+            String magic = sc.nextLine();    // first line contains P2 or P5
             if(!magic.equals("P2")){
                 throw new PGMFormatException();
             }
-            String line = d.readLine();     // second line contains height and width
-            while (line.startsWith("#")) {
-                line = d.readLine();
-            }
-            Scanner s = new Scanner(line);
-            width = s.nextInt();
-            height = s.nextInt();
-            line = d.readLine();// third line contains maxVal
-            s = new Scanner(line);
-            int maxVal = s.nextInt();
+            String line = sc.nextLine();     // second line contains height and width
+//            while (line.startsWith("#")) {
+//                line = sc.nextLine();
+//            }
+            //sc.nextLine();
+            this.width = sc.nextInt();
+            this.height = sc.nextInt();
+            this.img = new int[width*height];
+            line = sc.nextLine();// third line contains maxVal
+            
+            //int maxVal = s.nextInt();
 
             int count = 0;
             int b = 0;
-            try {
-                while (count < height*width) {
-                    b = d.read() ;
-                    img.add(b);
-                    count+=1;
-                }
-            } catch (EOFException eof) {
-                eof.printStackTrace(System.out) ;
+            while (count < height*width) {
+                b = sc.nextInt() ;
+                img[count]=b;
+                count+=1;
             }
             System.out.println("Height=" + height);
             System.out.println("Width=" + height);
@@ -172,6 +166,10 @@ public class PGMImage {
         catch(Throwable t) {
             t.printStackTrace(System.err) ;
         }
+        System.out.println(img[0]);
+        System.out.println(img[246]);
+        System.out.println(img[1000]);
+        System.out.println(img[1530]);
     }
     
     
@@ -193,23 +191,26 @@ public class PGMImage {
         writer.write("P2");
         writer.newLine();
         
-        writer.write("# no comment.");
-        writer.write("");
-        
-        writer.write(this.height);
-        writer.write(" ");
-        writer.write(this.width);
+        writer.write("# ");
         writer.newLine();
         
-        writer.write(255);
+        writer.write(""+this.width);
+        writer.write(" ");
+        
+        
+        writer.write(""+this.height);
+        writer.newLine();      
+
+        
+        writer.write(""+255);
         writer.newLine();
         
         int nbPixel = this.height * this.width;
         int nbChar = 0;
         for(int i = 0 ; i < nbPixel ; i ++)
         {
-            int px = this.img.get(i);
-            writer.write(px);
+            int px = this.img[i];
+            writer.write(""+px);
             if(px < 10){
                 writer.write("   ");
             }
@@ -249,9 +250,9 @@ public class PGMImage {
         
         for(int i = 0 ; i < this.height*this.width ; i++)
         {
-            if(this.img.get(i) > thr)
+            if(this.img[i] > thr)
             {
-                output.getImg().set(i, thr);
+                output.getImg()[i] = thr;
             }
         }
         
@@ -260,7 +261,7 @@ public class PGMImage {
   
   
     /**
-     * Computes the histogram of gray levels of the file
+     * Computes the histogram of grey levels of the file
      * @return 
      */
     public ArrayList<Integer> computeHistogram(){
@@ -272,42 +273,14 @@ public class PGMImage {
         }
         
         for(int i=0;i<height*width;i++){
-            histo.set(img.get(i), histo.get(img.get(i))+1);
+            histo.set(img[i], histo.get(img[i])+1);
         }
         
         return(histo);
     }
     
+
     
-    /**
-     * Apply a zoom in or out to the current PGMImage
-     * @param percentage Percentage of zoom (> 100 => in : < 100 => out).
-     * @return The PGMImage with the zoom applied.
-     */
-    public PGMImage zoom(int percentage)
-    {
-        PGMImage output = new PGMImage();
-        int height = (this.height*percentage)/100;
-        int width = (this.width*percentage)/100;
-        output.setHeight(height);
-        output.setWidth(width);
-        output.setFileName(this.fileName + "zoom.pgm");
-        
-        for(int x = 0 ; x < width ; x++)
-        {
-            for(int y = 0 ; y < height ; y++)
-            {
-                int x_old = (100*x)/percentage ;
-                int y_old = (100*y)/percentage ;
-                int i = (y_old)*this.width + x_old ;
-                output.getImg().add(this.img.get(i));
-                
-            }
-        }
-        
-        return output;
-    }
- 
     
     public PGMImage computeDiff(PGMImage other){
         
@@ -316,7 +289,7 @@ public class PGMImage {
         result.height=this.height;
         result.width=this.width;
         result.fileName = "DIFF.pgm";
-        result.img = new ArrayList<Integer>();
+        result.img = new int[width*height];
         
         try{
             if(this.height!=other.height || this.width!=other.width){
@@ -325,11 +298,11 @@ public class PGMImage {
             
             
             for(int i=0;i<height*width;i++){
-                int diff = this.img.get(i)-other.img.get(i);
+                int diff = this.img[i]-other.img[i];
                 if(diff<0){
                     diff=0;
                 }
-                result.img.add(diff);
+                result.img[i]=diff;
             }
         }
         catch(Exception e){
@@ -338,6 +311,32 @@ public class PGMImage {
         
         return(result);
     }
+    
+    
+       
+        
+        
+        public void drawImage(Graphics gr){
+            
+            
 
-  
+            //we draw all pixels on the graphic
+            for(int y = 0; y < height; y ++){
+                for(int x = 0; x < width; x ++){
+                    int index = y*width + x;
+                    int gray = img[index];
+
+                    //to draw we first set the color
+                    gr.setColor(new Color(gray,gray,gray));
+                    
+
+                    //then draw the pixel
+                    gr.fillRect(x, y,1,1); //draw
+                }
+            }
+            
+        }
+            
+    
+
 }

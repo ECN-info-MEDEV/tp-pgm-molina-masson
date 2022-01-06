@@ -40,3 +40,5 @@ nb-configuration.xml
 .settings/*
 image_pgm/test.pgm
 /image_pgm/nbproject/
+
+.scannerwork/

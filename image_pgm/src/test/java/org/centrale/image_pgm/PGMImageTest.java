@@ -44,12 +44,10 @@ public class PGMImageTest {
         System.out.println("Testing copy");
         PGMImage instance = new PGMImage("brain.pgm");
         PGMImage result = instance.copy();
-        assertArrayEquals(instance.getImg(), result.getImg());
-        assertEquals(instance.getWidth(), result.getWidth());
-        assertEquals(instance.getHeight(), result.getHeight());
-        assertEquals(instance.getFileName(), result.getFileName());
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The copy is invalid");
+        assertArrayEquals("Test copy fails : error in the copy of the array.", instance.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", instance.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", instance.getHeight(), result.getHeight());
+        assertEquals("Test copy fails : error in the copy of the file name.", instance.getFileName(), result.getFileName());
     }
 
     /**

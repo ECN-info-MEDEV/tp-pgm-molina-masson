@@ -57,12 +57,15 @@ public class PGMImageTest {
      */
     @Test
     public void testRead() {
-        System.out.println("read");
-        String fileName = "";
-        PGMImage instance = null;
-        instance.read(fileName);
+        System.out.println("Testing read");
+        String fileName = "toTest.pgm";
+        PGMImage instance = new PGMImage(fileName);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertArrayEquals(instance.getImg(), new int[] {0, 50, 100, 150, 200, 250});
+        assertEquals(instance.getWidth(), 1);
+        assertEquals(instance.getHeight(), 6);
+        assertEquals(instance.getFileName(), fileName);
+        fail("Bad read");
     }
 
     /**
@@ -70,12 +73,19 @@ public class PGMImageTest {
      */
     @Test
     public void testWrite() throws Exception {
-        System.out.println("write");
-        String fileName = "";
-        PGMImage instance = null;
+        System.out.println("Testing write");
+        PGMImage instance = new PGMImage("toTest.pgm");
+        String fileName = "test.pgm";
         instance.write(fileName);
+        
+        PGMImage readFile = new PGMImage(fileName);
+        
+        assertArrayEquals(readFile.getImg(), new int[] {0, 50, 100, 150, 200, 250});
+        assertEquals(readFile.getWidth(), 1);
+        assertEquals(readFile.getHeight(), 6);
+        assertEquals(readFile.getFileName(), fileName);
         // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        fail("Bad write");
     }
 
     /**

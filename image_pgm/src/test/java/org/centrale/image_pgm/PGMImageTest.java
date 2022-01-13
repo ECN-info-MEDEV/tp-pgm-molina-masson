@@ -112,40 +112,50 @@ public class PGMImageTest {
         PGMImage instance = new PGMImage("test", 10, 10, 255);
         PGMImage expResult = new PGMImage("result", 10, 10, 0);
         PGMImage result = instance.applyThreshold(thr);
-        assertEquals(expResult, result);
-        
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
+                
         thr = 50;
         instance = new PGMImage("test", 10, 10, 255);
         expResult = new PGMImage("result", 10, 10, 50);
         result = instance.applyThreshold(thr);
-        assertEquals(expResult, result);
-        
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
+                
         thr = 100;
         instance = new PGMImage("test", 10, 10, 255);
         expResult = new PGMImage("result", 10, 10, 100);
         result = instance.applyThreshold(thr);
-        assertEquals(expResult, result);
-        
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
+                
         thr = 150;
         instance = new PGMImage("test", 10, 10, 255);
         expResult = new PGMImage("result", 10, 10, 150);
         result = instance.applyThreshold(thr);
-        assertEquals(expResult, result);
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
         
         thr = 200;
         instance = new PGMImage("test", 10, 10, 255);
         expResult = new PGMImage("result", 10, 10, 200);
         result = instance.applyThreshold(thr);
-        assertEquals(expResult, result);
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
         
         thr = 255;
         instance = new PGMImage("test", 10, 10, 255);
         expResult = new PGMImage("result", 10, 10, 255);
         result = instance.applyThreshold(thr);
-        assertEquals(expResult, result);
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());        
         
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**

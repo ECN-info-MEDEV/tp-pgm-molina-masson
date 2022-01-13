@@ -30,13 +30,6 @@ public class PGMImageTest {
     }
 
     /**
-     * Test of getFileName method, of class PGMImage.
-     */
-    
-
-    
-
-    /**
      * Test of copy method, of class PGMImage.
      */
     @Test
@@ -58,12 +51,11 @@ public class PGMImageTest {
         System.out.println("Testing read");
         String fileName = "toTest.pgm";
         PGMImage instance = new PGMImage(fileName);
-        // TODO review the generated test code and remove the default call to fail.
-        assertArrayEquals(instance.getImg(), new int[] {0, 50, 100, 150, 200, 250});
-        assertEquals(instance.getWidth(), 1);
-        assertEquals(instance.getHeight(), 6);
-        assertEquals(instance.getFileName(), fileName);
-        fail("Bad read");
+
+        assertEquals("Test read fails : the width is wrongly read.", instance.getWidth(), 1);
+        assertEquals("Test read fails : the height is wrongly read.", instance.getHeight(), 6);
+        assertEquals("Test read fails : the file name is wrongly read.", instance.getFileName(), fileName);
+        assertArrayEquals("Test read fails : the array is wrongly read.", instance.getImg(), new int[] {0, 50, 100, 150, 200, 250});
     }
 
     /**
@@ -82,8 +74,6 @@ public class PGMImageTest {
         assertEquals(readFile.getWidth(), 1);
         assertEquals(readFile.getHeight(), 6);
         assertEquals(readFile.getFileName(), fileName);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("Bad write");
     }
 
     /**

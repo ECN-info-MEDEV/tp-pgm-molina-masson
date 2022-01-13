@@ -199,10 +199,6 @@ public class PGMImage {
         catch(Throwable t) {
             t.printStackTrace(System.err) ;
         }
-        System.out.println(img[0]);
-        System.out.println(img[246]);
-        System.out.println(img[1000]);
-        System.out.println(img[1530]);
     }
     
     
@@ -227,15 +223,15 @@ public class PGMImage {
         writer.write("# ");
         writer.newLine();
         
-        writer.write(""+this.width);
+        writer.write(this.width);
         writer.write(" ");
         
         
-        writer.write(""+this.height);
+        writer.write(this.height);
         writer.newLine();      
 
         
-        writer.write(""+255);
+        writer.write(255);
         writer.newLine();
         
         int nbPixel = this.height * this.width;

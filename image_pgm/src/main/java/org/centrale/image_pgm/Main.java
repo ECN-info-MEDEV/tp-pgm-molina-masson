@@ -5,8 +5,6 @@
  */
 package org.centrale.image_pgm;
 
-import java.util.Arrays;
-
 /**
  *
  * @author Valentin Molina valentin@molina.pro
@@ -16,6 +14,7 @@ public class Main {
     public static void main(String[] argv)
     {
         PGMImage img = new PGMImage("brain.pgm");
+        System.out.println("brain.pgm : " +img.getHeight()+"x"+img.getWidth());
         try{
             img.write("test.pgm");
         }
@@ -23,10 +22,8 @@ public class Main {
             System.out.println("Could not write the file");
         }
              
-        imageFrame fr = new imageFrame(img);
+        //ImageFrame fr = new ImageFrame(img);
         
-        System.out.println(Arrays.toString(img.getImg()));
+        //System.out.println(Arrays.toString(img.getImg()));
     }
-    
-    
 }

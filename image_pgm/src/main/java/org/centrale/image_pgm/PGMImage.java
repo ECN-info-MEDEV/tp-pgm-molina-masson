@@ -7,9 +7,9 @@ package org.centrale.image_pgm;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -168,21 +168,23 @@ public class PGMImage {
             InputStream f = new FileInputStream(fileName);
             Scanner sc = new Scanner(f);
             //BufferedReader d = new BufferedReader(new InputStreamReader(f));
-            String magic = sc.nextLine();    // first line contains P2 or P5
-            if(!magic.equals("P2")){
+            
+            String p2 = sc.nextLine();    // first line contains P2
+            if(!p2.equals("P2")){
                 throw new PGMFormatException();
             }
-            String line = sc.nextLine();     // second line contains height and width
-//            while (line.startsWith("#")) {
-//                line = sc.nextLine();
-//            }
-            //sc.nextLine();
+            
+            // first line containes a comment
+            sc.nextLine();     
+            
+            // second line contains height and width
             this.width = sc.nextInt();
             this.height = sc.nextInt();
             this.img = new int[width*height];
-            line = sc.nextLine();// third line contains maxVal
-            line = sc.nextLine();
-            //int maxVal = s.nextInt();
+            
+            sc.nextLine();// third line contains maxVal
+            
+            sc.nextLine();
 
             int count = 0;
             int b = 0;
@@ -192,12 +194,17 @@ public class PGMImage {
                 count+=1;
             }
             System.out.println("Height=" + height);
-            System.out.println("Width=" + height);
+            System.out.println("Width=" + width);
             System.out.println("Required elements=" + (height * width));
             System.out.println("Obtained elements=" + count);
         }
-        catch(Throwable t) {
-            t.printStackTrace(System.err) ;
+        catch(FileNotFoundException e)
+        {
+            System.out.println("File " +fileName+" not found.");
+        }
+        catch(PGMFormatException e) {
+            System.out.println("An error has occured will reading the file.");
+            e.printStackTrace(System.err) ;
         }
     }
     
@@ -223,15 +230,15 @@ public class PGMImage {
         writer.write("# ");
         writer.newLine();
         
-        writer.write(this.width);
+        writer.write(""+this.width);//cast in string.
+        System.out.println(this.width);
         writer.write(" ");
-        
-        
-        writer.write(this.height);
+        writer.write(""+this.height);//cast in string.
+        System.out.println(this.height);
         writer.newLine();      
 
         
-        writer.write(255);
+        writer.write(""+255);//cast in string.
         writer.newLine();
         
         int nbPixel = this.height * this.width;
@@ -250,7 +257,7 @@ public class PGMImage {
                 writer.write(" ");
             }
             nbChar += 4;
-            if(nbChar == 70){
+            if(nbChar > 66){
                 writer.newLine();
                 nbChar = 0;
             }
@@ -293,9 +300,9 @@ public class PGMImage {
      * Computes the histogram of grey levels of the file
      * @return 
      */
-    public ArrayList<Integer> computeHistogram(){
+    public List<Integer> computeHistogram(){
         
-        ArrayList<Integer> histo = new ArrayList<Integer>();
+        ArrayList<Integer> histo = new ArrayList<>();
         
         for(int i=0; i<255;i++){
             histo.add(0);

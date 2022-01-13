@@ -11,11 +11,11 @@ import javax.swing.JFrame;
  *
  * @author thene
  */
-public class imageFrame extends JFrame {
+public class ImageFrame extends JFrame {
     
     PGMImage img;
     
-    public imageFrame(PGMImage img){
+    public ImageFrame(PGMImage img){
         setSize(800, 800);
         setVisible(true);
         this.img=img;

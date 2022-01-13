@@ -190,7 +190,7 @@ public class PGMImage {
             for (count= 0 ; count < height*width ; count ++) {
                 b = sc.nextInt() ;
                 img[count]=b;
-                count+=1;
+                
             }
             System.out.println("Height=" + height);
             System.out.println("Width=" + width);

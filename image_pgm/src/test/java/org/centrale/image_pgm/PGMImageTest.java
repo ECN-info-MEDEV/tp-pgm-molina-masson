@@ -77,8 +77,8 @@ public class PGMImageTest {
             instance.write(fileName);
         }
         catch (IOException e) {
-            System.err.println("An error has occured will writing the file.");
-            e.printStackTrace(System.err) ;
+            System.out.println("An error has occured will writing the file.");
+            e.printStackTrace(System.out) ;
         }
         
         // read the result :

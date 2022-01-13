@@ -167,7 +167,6 @@ public class PGMImage {
         try {
             InputStream f = new FileInputStream(fileName);
             Scanner sc = new Scanner(f);
-            //BufferedReader d = new BufferedReader(new InputStreamReader(f));
             
             String p2 = sc.nextLine();    // first line contains P2
             if(!p2.equals("P2")){
@@ -186,9 +185,9 @@ public class PGMImage {
             
             sc.nextLine();
 
-            int count = 0;
+            int count;
             int b = 0;
-            while (count < height*width) {
+            for (count= 0 ; count < height*width ; count ++) {
                 b = sc.nextInt() ;
                 img[count]=b;
                 count+=1;
@@ -230,10 +229,8 @@ public class PGMImage {
         writer.write("# ");
         writer.newLine();
         
-        writer.write(""+this.width);//cast in string.
+        writer.write(""+this.width+" "+this.height);//cast in string.
         System.out.println(this.width);
-        writer.write(" ");
-        writer.write(""+this.height);//cast in string.
         System.out.println(this.height);
         writer.newLine();      
 
@@ -246,15 +243,14 @@ public class PGMImage {
         for(int i = 0 ; i < nbPixel ; i ++)
         {
             int px = this.img[i];
-            writer.write(""+px);
             if(px < 10){
-                writer.write("   ");
+                writer.write(px+"   ");
             }
             else if(px < 100) {
-                writer.write("  ");
+                writer.write(px+"  ");
             }
             else {
-                writer.write(" ");
+                writer.write(px+" ");
             }
             nbChar += 4;
             if(nbChar > 66){

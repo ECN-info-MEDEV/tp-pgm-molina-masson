@@ -200,10 +200,10 @@ public class PGMImage {
         }
         catch(FileNotFoundException e)
         {
-            System.out.println("File " +fileName+" not found.");
+            System.err.println("File " +fileName+" not found.");
         }
         catch(PGMFormatException e) {
-            System.out.println("An error has occured will reading the file.");
+            System.err.println("An error has occured will reading the file.");
             e.printStackTrace(System.err) ;
         }
     }

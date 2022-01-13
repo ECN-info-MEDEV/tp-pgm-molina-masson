@@ -6,8 +6,8 @@ package org.centrale.image_pgm;
 
 import java.awt.Graphics;
 import java.util.List;
+import java.io.*;
 import org.junit.AfterClass;
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -52,35 +52,42 @@ public class PGMImageTest {
         String fileName = "toTest.pgm";
         PGMImage instance = new PGMImage(fileName);
 
-        assertEquals("Test read fails : the width is wrongly read.", instance.getWidth(), 1);
+        assertEquals("Test read fails : the width is wrongly read.", instance.getWidth(), 2);
         assertEquals("Test read fails : the height is wrongly read.", instance.getHeight(), 6);
         assertEquals("Test read fails : the file name is wrongly read.", instance.getFileName(), fileName);
-        assertArrayEquals("Test read fails : the array is wrongly read.", instance.getImg(), new int[] {0, 50, 100, 150, 200, 250});
+        assertArrayEquals("Test read fails : the array is wrongly read.", instance.getImg(), new int[] {0, 50, 100, 150, 200, 250,
+                                                                                                        0, 50, 100, 150, 200, 250});
     }
 
     /**
      * Test of write method, of class PGMImage.
      */
     @Test
-    public void testWrite() throws Exception {
+    public void testWrite() {
         System.out.println("Testing write");
         
         // reading the testing sample :
-        PGMImage instance = new PGMImage("toTest.pgm");
+        PGMImage instance = new PGMImage("brain.pgm");
         System.out.println("Size of the sample : "+instance.getHeight()+"x"+instance.getWidth());
         System.out.println("Number of pixels : "+instance.getImg().length);
         
         // test of write :
         String fileName = "test.pgm";
-        instance.write(fileName);
+        try {
+            instance.write(fileName);
+        }
+        catch (IOException e) {
+            System.err.println("An error has occured will writing the file.");
+            e.printStackTrace(System.err) ;
+        }
         
         // read the result :
         PGMImage readFile = new PGMImage(fileName);
         
-        //assertArrayEquals(readFile.getImg(), new int[] {0, 50, 100, 150, 200, 250});
-        assertEquals(readFile.getWidth(), 1);
-        assertEquals(readFile.getHeight(), 6);
-        assertEquals(readFile.getFileName(), fileName);
+        assertArrayEquals(instance.getImg(), readFile.getImg());
+        assertEquals(instance.getWidth(), readFile.getWidth());
+        assertEquals(instance.getHeight(), readFile.getHeight());
+        assertEquals(fileName, readFile.getFileName());
     }
 
     /**

@@ -24,11 +24,7 @@ public class Main {
         catch(Exception e){
             System.out.println("Could not write the file");
         }
-             
-        //ImageFrame fr = new ImageFrame(img);
-        
-        //System.out.println(Arrays.toString(img.getImg()));
-        
+
         System.out.println("----------------------------");
         // reading the testing sample :
         PGMImage instance = new PGMImage("toTest.pgm");

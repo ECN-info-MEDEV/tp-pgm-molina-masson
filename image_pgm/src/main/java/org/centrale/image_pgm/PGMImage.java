@@ -8,8 +8,6 @@ package org.centrale.image_pgm;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -147,7 +145,7 @@ public class PGMImage {
         this.img = new int[width*height];
         for(int i = 0 ; i < this.height*this.width ; i ++)
         {
-            this.img[i]=((Integer)other.getImg()[i]);
+            this.img[i]=other.getImg()[i];
         }
     }
     
@@ -185,17 +183,13 @@ public class PGMImage {
             
             sc.nextLine();
 
-            int count;
+            
             int b = 0;
-            for (count= 0 ; count < height*width ; count ++) {
+            for (int count= 0 ; count < height*width ; count ++) {
                 b = sc.nextInt() ;
                 img[count]=b;
                 
             }
-            System.out.println("Height=" + height);
-            System.out.println("Width=" + width);
-            System.out.println("Required elements=" + (height * width));
-            System.out.println("Obtained elements=" + count);
         }
         catch(FileNotFoundException e)
         {
@@ -203,8 +197,8 @@ public class PGMImage {
         }
         catch(PGMFormatException e) {
             System.err.println("An error has occured will reading the file.");
-            e.printStackTrace(System.err) ;
         }
+        
     }
     
     
@@ -240,6 +234,7 @@ public class PGMImage {
         
         int nbPixel = this.height * this.width;
         int nbChar = 0;
+        
         for(int i = 0 ; i < nbPixel ; i ++)
         {
             int px = this.img[i];
@@ -258,6 +253,7 @@ public class PGMImage {
                 nbChar = 0;
             }
         }
+        writer.close();
     }
     
     
@@ -293,7 +289,7 @@ public class PGMImage {
   
   
     /**
-     * Computes the histogram of grey levels of the file
+     * Computes the histogram of gray levels of the file
      * @return 
      */
     public int[] computeHistogram(){

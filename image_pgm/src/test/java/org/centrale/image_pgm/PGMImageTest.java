@@ -4,8 +4,6 @@
  */
 package org.centrale.image_pgm;
 
-import java.awt.Graphics;
-import java.util.List;
 import java.io.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -34,13 +32,13 @@ public class PGMImageTest {
      */
     @Test
     public void testCopy() {
-        System.out.println("Testing copy");
+        System.out.println("---------- Testing copy ----------");
         PGMImage instance = new PGMImage("brain.pgm");
         PGMImage result = instance.copy();
-        assertArrayEquals("Test copy fails : error in the copy of the array.", instance.getImg(), result.getImg());
-        assertEquals("Test copy fails : error in the copy of the width.", instance.getWidth(), result.getWidth());
-        assertEquals("Test copy fails : error in the copy of the height.", instance.getHeight(), result.getHeight());
-        assertEquals("Test copy fails : error in the copy of the file name.", instance.getFileName(), result.getFileName());
+        assertArrayEquals("Test copy fails : error in the copy of the array.", result.getImg(), instance.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", result.getWidth(), instance.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", result.getHeight(), instance.getHeight());
+        assertEquals("Test copy fails : error in the copy of the file name.", result.getFileName(), instance.getFileName());
     }
 
     /**
@@ -48,15 +46,15 @@ public class PGMImageTest {
      */
     @Test
     public void testRead() {
-        System.out.println("Testing read");
+        System.out.println("---------- Testing read ----------");
         String fileName = "toTest.pgm";
         PGMImage instance = new PGMImage(fileName);
 
-        assertEquals("Test read fails : the width is wrongly read.", instance.getWidth(), 2);
-        assertEquals("Test read fails : the height is wrongly read.", instance.getHeight(), 6);
-        assertEquals("Test read fails : the file name is wrongly read.", instance.getFileName(), fileName);
-        assertArrayEquals("Test read fails : the array is wrongly read.", instance.getImg(), new int[] {0, 50, 100, 150, 200, 250,
-                                                                                                        0, 50, 100, 150, 200, 250});
+        assertEquals("Test read fails : the width is wrongly read.", 2, instance.getWidth());
+        assertEquals("Test read fails : the height is wrongly read.", 6, instance.getHeight());
+        assertEquals("Test read fails : the file name is wrongly read.", fileName, instance.getFileName());
+        assertArrayEquals("Test read fails : the array is wrongly read.", 
+                new int[] {0, 50, 100, 150, 200, 250, 0, 50, 100, 150, 200, 250}, instance.getImg());
     }
 
     /**
@@ -64,7 +62,7 @@ public class PGMImageTest {
      */
     @Test
     public void testWrite() {
-        System.out.println("Testing write");
+        System.out.println("---------- Testing write ----------");
         
         // reading the testing sample :
         PGMImage instance = new PGMImage("brain.pgm");
@@ -95,11 +93,15 @@ public class PGMImageTest {
      */
     @Test
     public void testOverwrite() throws Exception {
-        System.out.println("overwrite");
-        PGMImage instance = null;
+        System.out.println("---------- overwrite ----------");
+        PGMImage instance = new PGMImage("brain_2.pgm");
         instance.overwrite();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        PGMImage overwrited = new PGMImage("brain_2.pgm");
+        
+        assertArrayEquals(instance.getImg(), overwrited.getImg());
+        assertEquals(instance.getWidth(), overwrited.getWidth());
+        assertEquals(instance.getHeight(), overwrited.getHeight());
+        assertEquals("brain_2.pgm", overwrited.getFileName());
     }
 
     /**
@@ -107,7 +109,7 @@ public class PGMImageTest {
      */
     @Test
     public void testApplyThreshold() {
-        System.out.println("applyThreshold");
+        System.out.println("---------- applyThreshold ----------");
         int thr = 0;
         PGMImage instance = new PGMImage("test", 10, 10, 255);
         PGMImage expResult = new PGMImage("result", 10, 10, 0);
@@ -172,7 +174,7 @@ public class PGMImageTest {
      */
     @Test
     public void testComputeHistogram() {
-        System.out.println("computeHistogram");
+        System.out.println("---------- computeHistogram ----------");
         String fileName = "toTest.pgm";
         PGMImage instance = new PGMImage(fileName);
         int[]histo = instance.computeHistogram();
@@ -190,7 +192,7 @@ public class PGMImageTest {
      */
     @Test
     public void testComputeDiff() {
-        System.out.println("computeDiff");
+        System.out.println("---------- computeDiff ----------");
         PGMImage instance1 = new PGMImage("test", 10, 10, 255);
         PGMImage instance2 = new PGMImage("test", 10, 10, 255);
         PGMImage expResult = new PGMImage("result", 10, 10, 0);

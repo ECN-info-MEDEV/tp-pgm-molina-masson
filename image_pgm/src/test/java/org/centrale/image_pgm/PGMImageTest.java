@@ -154,7 +154,16 @@ public class PGMImageTest {
         result = instance.applyThreshold(thr);
         assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
         assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
-        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());        
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
+
+
+        thr = 100;
+        instance = new PGMImage("test", 10, 10, 50);
+        expResult = new PGMImage("result", 10, 10, 50);
+        result = instance.applyThreshold(thr);
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
         
     }
 
@@ -164,13 +173,17 @@ public class PGMImageTest {
     @Test
     public void testComputeHistogram() {
         System.out.println("computeHistogram");
-        PGMImage instance = null;
-        List<Integer> expResult = null;
-        List<Integer> result = instance.computeHistogram();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        String fileName = "toTest.pgm";
+        PGMImage instance = new PGMImage(fileName);
+        int[]histo = instance.computeHistogram();
+        assertEquals(2, histo[0]);
+        assertEquals(2, histo[50]);
+        assertEquals(2, histo[100]);
+        assertEquals(2, histo[150]);
+        assertEquals(2, histo[200]);
+        assertEquals(2, histo[250]);
+        
+     }
 
     /**
      * Test of computeDiff method, of class PGMImage.
@@ -178,26 +191,37 @@ public class PGMImageTest {
     @Test
     public void testComputeDiff() {
         System.out.println("computeDiff");
-        PGMImage other = null;
-        PGMImage instance = null;
-        PGMImage expResult = null;
-        PGMImage result = instance.computeDiff(other);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        PGMImage instance1 = new PGMImage("test", 10, 10, 255);
+        PGMImage instance2 = new PGMImage("test", 10, 10, 255);
+        PGMImage expResult = new PGMImage("result", 10, 10, 0);
+        PGMImage result = instance1.computeDiff(instance2);
+        
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
+        
+        
+        instance1 = new PGMImage("test", 10, 10, 200);
+        instance2 = new PGMImage("test", 10, 10, 50);
+        expResult = new PGMImage("result", 10, 10, 150);
+        result = instance1.computeDiff(instance2);
+        
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
+        
+        instance1 = new PGMImage("test", 10, 10, 50);
+        instance2 = new PGMImage("test", 10, 10, 100);
+        expResult = new PGMImage("result", 10, 10, 0);
+        result = instance1.computeDiff(instance2);
+        
+        assertArrayEquals("Test copy fails : error in the copy of the array.", expResult.getImg(), result.getImg());
+        assertEquals("Test copy fails : error in the copy of the width.", expResult.getWidth(), result.getWidth());
+        assertEquals("Test copy fails : error in the copy of the height.", expResult.getHeight(), result.getHeight());
+        
+        
+        
     }
 
-    /**
-     * Test of drawImage method, of class PGMImage.
-     */
-    @Test
-    public void testDrawImage() {
-        System.out.println("drawImage");
-        Graphics gr = null;
-        PGMImage instance = null;
-        instance.drawImage(gr);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
     
 }

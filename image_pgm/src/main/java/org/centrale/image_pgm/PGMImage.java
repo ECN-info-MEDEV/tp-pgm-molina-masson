@@ -296,16 +296,16 @@ public class PGMImage {
      * Computes the histogram of grey levels of the file
      * @return 
      */
-    public List<Integer> computeHistogram(){
+    public int[] computeHistogram(){
         
-        ArrayList<Integer> histo = new ArrayList<>();
+        int[] histo = new int[256];
         
-        for(int i=0; i<255;i++){
-            histo.add(0);
+        for(int i=0; i<=255;i++){
+            histo[i]=0;
         }
         
         for(int i=0;i<height*width;i++){
-            histo.set(img[i], histo.get(img[i])+1);
+            histo[img[i]]++;
         }
         
         return(histo);
